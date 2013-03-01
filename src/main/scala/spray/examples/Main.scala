@@ -22,11 +22,11 @@ object Main extends App {
   ///////////////////////////////////////////////////
 
   def startExample1() {
-    log.info("Getting http://github.com ...")
+    log.info("Getting https://github.com/ ...")
     // an HttpConduit gives us access to an HTTP server,
     // it manages a pool of connections to _one_ host/port combination
     val conduit = system.actorOf(
-      props = Props(new HttpConduit(httpClient, "github.com")),
+      props = Props(new HttpConduit(httpClient, "github.com", port= 443, sslEnabled = true)),
       name = "http-conduit-1"
     )
 
@@ -46,7 +46,7 @@ object Main extends App {
         startExample2()
 
       case Failure(error) =>
-        log.error(error, "Couldn't get http://github.com")
+        log.error(error, "Couldn't get https://github.com/")
         system.shutdown() // also stops all conduits (since they are actors)
     }
   }
